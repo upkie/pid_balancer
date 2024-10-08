@@ -4,6 +4,8 @@ The PID balancer is a baseline agent designed to test an Upkie quickly. It has m
 
 ## Usage
 
+<img src="https://user-images.githubusercontent.com/1189580/170496331-e1293dd3-b50c-40ee-9c2e-f75f3096ebd8.png" height="100" align="right" />
+
 ```console
 ./run_pid_balancer.sh
 ```
