@@ -1,22 +1,13 @@
-Template repository to create new agents with custom spines for [Upkie](https://github.com/upkie/upkie) wheeled bipeds.
+# PID balancer
 
-If you don't need a custom spine, you can implement your agent in Python directly. Check out the [MPC](https://github.com/upkie/mpc_balancer) or [Pink](https://github.com/upkie/pink_balancer) balancers for instance.
-
-## Getting started
-
-1. Create a new repository from this template
-2. Search for the string "TODO" and update files accordingly
-3. Replace `LICENSE` with the license of your choice (the default one is Apache-2.0)
-4. Start listing your dependencies in `environment.yaml`
-5. Rename and start implement your agent from `agent.py`
-6. Implement your C++ spines in the `spines` directory
+The PID balancer is a baseline agent designed to test an Upkie quickly. It has minimum dependencies beyond the main `upkie` module.
 
 ## Usage
 
-- Install Python packages to a conda environment: `conda env create -f environment.yaml`
-- Activate conda environment: `conda activate <env_name>`
-- Run the simulation spine: `make run_bullet_spine`
-- Build the pi3hat spine locally: `make build`
-- Upload the full repository (with built spines) to the robot: `make upload`
-- Run the pi3hat spine: `make run_pi3hat_spine` (on robot)
-- Run your agent: `python agent.py`
+```console
+./run_pid_balancer.sh
+```
+
+## Overview
+
+This agent balances the robot by PI feedback from torso-pitch and ground-position to wheel velocities (`WheelController`), keeping the legs' hip and knee joints straight (`ServoController`). The wheel controller adds a feedforward [non-minimum phase trick](https://github.com/upkie/upkie/blob/513fea81673f89646fdffcbad2f65ca9a0941ca6/pid_balancer/wheel_controller.py#L433-L457) for smoother transitions from standing to rolling.

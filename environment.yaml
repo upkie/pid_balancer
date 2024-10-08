@@ -1,4 +1,4 @@
-name: new_agent  # TODO: set project name
+name: pid_balancer
 channels:
     - https://conda.anaconda.org/conda-forge
 dependencies:

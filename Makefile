@@ -7,8 +7,7 @@
 REMOTE = ${UPKIE_NAME}
 
 # Project name needs to match the one in WORKSPACE
-# TODO: set project name
-PROJECT_NAME = new_agent
+PROJECT_NAME = pid_balancer
 
 BAZEL = $(CURDIR)/tools/bazelisk
 COVERAGE_DIR = $(CURDIR)/bazel-out/_coverage
