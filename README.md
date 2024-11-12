@@ -1,5 +1,7 @@
 # PID balancer
 
+[![upkie](https://img.shields.io/badge/upkie-5.1.0-cyan)](https://github.com/upkie/upkie/tree/v5.1.0)
+
 The PID balancer is a baseline agent designed to test new Upkies with minimum dependencies. Try it out as follows:
 
 ```console
