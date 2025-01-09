@@ -17,7 +17,6 @@ RASPUNZEL = $(CURDIR)/tools/raspunzel
 
 # Help snippet adapted from:
 # http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
-.PHONY: help
 help:
 	@echo "Host targets:\n"
 	@grep -P '^[a-zA-Z0-9_-]+:.*? ## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "    \033[36m%-24s\033[0m %s\n", $$1, $$2}'
@@ -29,12 +28,10 @@ help:
 # HOST TARGETS
 # ============
 
-.PHONY: build
 build: clean_broken_links  ## build Raspberry Pi spines
 	$(BAZEL) build --config=pi64 //spines:mock_spine
 	$(BAZEL) build --config=pi64 //spines:pi3hat_spine
 
-.PHONY: check_upkie_name
 check_upkie_name:
 	@if [ -z "${UPKIE_NAME}" ]; then \
 		echo "ERROR: Environment variable UPKIE_NAME is not set.\n"; \
@@ -46,20 +43,16 @@ check_upkie_name:
 		exit 1; \
 	fi
 
-.PHONY: clean
 clean: clean_broken_links  ## clean up intermediate build files
 	$(BAZEL) clean --expunge
 
-.PHONY: clean_broken_links
 clean_broken_links:
 	find -L $(CURDIR) -type l ! -exec test -e {} \; -delete
 
-.PHONY: run_bullet_spine
 run_bullet_spine:  ## run the Bullet simulation spine
 	$(BAZEL) run //spines:bullet_spine -- --show
 
-.PHONY: upload
-upload: check_upkie_name build  ## upload built targets to the Raspberry Pi
+upload: check_upkie_name  ## upload built targets to the Raspberry Pi
 	ssh $(REMOTE) sudo date -s "$(CURDATE)"
 	ssh $(REMOTE) mkdir -p $(PROJECT_NAME)
 	ssh $(REMOTE) sudo find $(PROJECT_NAME) -type d -name __pycache__ -user root -exec chmod go+wx {} "\;"
