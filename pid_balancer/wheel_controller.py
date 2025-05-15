@@ -11,7 +11,6 @@ from typing import Tuple
 
 import gin
 import numpy as np
-
 from upkie.utils.clamp import clamp, clamp_abs
 from upkie.utils.filters import abs_bounded_derivative_filter, low_pass_filter
 
@@ -430,32 +429,8 @@ class WheelController:
             ]
         )
 
-        # Non-minimum phase trick: as per control theory's book, the proper
-        # feedforward velocity should be `+self.target_ground_velocity`.
-        # However, it is with resolute purpose that it sends
-        # `-self.target_ground_velocity` instead!
-        #
-        # Try both on the robot, you will see the difference :)
-        #
-        # This hack is not purely out of "esprit de contradiction". Changing
-        # velocity is a non-minimum phase behavior (to accelerate forward, the
-        # ZMP of the LIPM needs to move backward at first, then forward), and
-        # our feedback can't realize that (it only takes care of balancing
-        # around a stationary velocity).
-        #
-        # What's left? Our integrator! If we send the opposite of the target
-        # velocity (or only a fraction of it, although 100% seems to do a good
-        # job), Upkie will immediately start executing the desired non-minimum
-        # phase behavior. The error will then grow and the integrator catch up
-        # so that `upkie_trick_velocity - self.integral_error_velocity``
-        # converges to its proper steady state value (the same value `0 -
-        # self.integral_error_velocity` would have converged to if we had no
-        # feedforward).
-        #
-        # Unconvinced? Try it on the robot. You will feel Upkie's trick ;)
-        #
+        # Non-minimum phase trick: see the readme for details
         upkie_trick_velocity = -self.target_ground_velocity
-
         self.ground_velocity = (
             upkie_trick_velocity - kp.dot(error) - self.integral_error_velocity
         )
