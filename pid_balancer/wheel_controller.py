@@ -177,10 +177,6 @@ class WheelController:
     ## Target ground sagittal velocity in [m] / [s].
     target_ground_velocity: float
 
-    ## @var target_yaw_position
-    ## Target yaw position in [rad].
-    target_yaw_position: float
-
     ## @var target_yaw_velocity
     ## Target yaw velocity in [rad] / [s].
     target_yaw_velocity: float
@@ -262,7 +258,6 @@ class WheelController:
         self.pitch = 0.0
         self.target_ground_position = 0.0
         self.target_ground_velocity = 0.0
-        self.target_yaw_position = 0.0
         self.target_yaw_velocity = 0.0
         self.turning_deadband = turning_deadband
         self.turning_decision_time = turning_decision_time
